@@ -223,3 +223,4 @@ public class PasswordAnalyzer {
         keyboard.close(); //Close the Scanner
     }
 }
+
