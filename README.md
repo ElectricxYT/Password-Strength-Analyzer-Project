@@ -1,6 +1,6 @@
 # Overview
 
-The Password Strength Analyzer is a Java-based command-line application that evaluates the strength of a user-entered password and provides a clear strength rating as well as personalized recommendations for improvement. The analyzer scores passwords using multiple security-focused criteria, including length, character diversity, repetition detection, and comparison against a list of common weak passwords.
+The Password Strength Analyzer is a Java-based command-line application that evaluates user-entered passwords, provides a clear strength rating, and offers actionable suggestions for improvement. It applies real-world cybersecurity principles, secure coding practices, and object-oriented design.
 
 This project emphasizes secure coding practices, object-oriented design, and practical cybersecurity principles.
 
@@ -16,24 +16,23 @@ As an aspiring cybersecurity engineer, this project allowed me to:
 
 - Demonstrate algorithmic reasoning and defensive programming
 
-## Features
-- Password Analysis
+## Key Features
 
-- Length-based scoring with penalties for passwords under 8 characters
-
-- Detection and counting of:
-
-    - Uppercase letters
-
-    - Lowercase letters
-
-    - Digits (numbers)
-
-    - Symbols
-
-- Detection of consecutive repeated characters
-
-- Comparison against a curated list of common weak passwords
+- Analyze passwords for:
+  - Length
+  - Uppercase letters
+  - Lowercase letters
+  - Digits
+  - Symbols
+  - Consecutive repeated characters
+  - Common weak passwords (top 50 most common)
+- Weighted scoring system with strength classifications:
+  - Weak (0–2)
+  - Moderate (3–4)
+  - Strong (5–6)
+  - Very Strong (7)
+- Personalized recommendations to improve password security
+- Session-based analysis: check multiple passwords in a single program run
 
 ## Scoring & Classification
 
@@ -91,6 +90,49 @@ Final strength ratings:
 - Stores and provides access to a list of commonly used weak passwords
 
 - Enables dictionary-based penalty detection
+
+# Example Session
+
+Hello! Please input your password, and I will evaluate its strength:
+
+*P@ssword123*
+
+Analysis Complete
+Your password has:
+1 Uppercase letters
+6 Lowercase letters
+3 Digits (Numbers)
+1 Symbol
+
+Your password's strength is: Strong
+
+Your password is strong, but it could be even stronger. To improve your password:
+
+To increase the strength of your password, ensure that it: 
+ - Has a minimum of 13 characters 
+ - Has at least one lowercase letter 
+ - Has at least one uppercase letter 
+ - Has at least one digit (number) 
+ - Has at least one symbol 
+ - Doesn't have any repeating characters 
+ - Is not a common password
+
+Meet these requirements and be sure to change your password every 3 months!
+
+Would you like to check another password? Please type 'Yes' or 'No'
+
+*No*
+
+Thank you for using the Password Strength Analyzer. Have a great day!
+
+
+## Design & Engineering Highlights
+
+- Encapsulates password attributes in `PasswordAnalyzer` objects for modularity and clarity
+- Static variables track session-level behavior (multi-password checks)
+- Clear separation of methods for character analysis, repetition detection, scoring, and suggestions
+- Easy to extend for future features such as GUI, entropy-based scoring, or expanded repetition rules
+
 
 # Technologies Used
 
