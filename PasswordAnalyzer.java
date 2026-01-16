@@ -8,6 +8,7 @@ import java.util.Scanner;
  */
 
 public class PasswordAnalyzer {
+    private static Scanner keyboard = new Scanner(System.in); //Create the scanner object 'keyboard' for the whole class to use
     private String pswd; //This variable will hold the user's password
     private int score; //This variable will hold the password's complexity score
     private int pswlength; //This variable will hold the length of the password
@@ -17,6 +18,8 @@ public class PasswordAnalyzer {
     private int numOfDigits; //This variable will hold the number of digits (numbers)
     private int numOfRepeats; //This variable will hold the number of repeats
     private boolean isCommon; //This variable will hold a boolean that indicates whether the user's password is common or not
+    private static int counter = 0;//Tracks the number of times the user checks a password.
+    private static boolean failedLast = false; //Checks whether the last inputted password invalid ("")?
 
     public PasswordAnalyzer(String pswd){ // Create a PasswordAnalyzer object to hold details of the user's password
         this.pswd = pswd;
@@ -201,25 +204,66 @@ public class PasswordAnalyzer {
         return n;
     }
 
+    /**
+     * Contains the code for analyzing the user's password, allowing them to continuously check passwords until satisfied
+     */
+    private static void startPasswordAnalysis(){
+        boolean active = true;
+        while(active) {
+            if (counter == 0) {
+                System.out.println("Hello! Please input your password, and I will evaluate its strength:"); //Ask the user to input their password
+            } else if (counter > 0 && failedLast == true) {
+                System.out.println("\nPlease input a valid password, and I will evaluate its strength");
+            } else if (counter > 0) {
+                System.out.println("Welcome back! Please input another password, and I will evaluate its strength");
+            }
+
+            String input = keyboard.nextLine();//Store the user's password in String variable 'password'
+            if (input.equals("")) { //If nothing is inputted, inform the user to input a valid password and restart the method
+                System.out.println("No password received. Please input a password.");
+                failedLast = true;
+                counter++;
+                continue; //Restart the loop
+            }
+            counter++;
+            failedLast = false;
+            PasswordAnalyzer password = new PasswordAnalyzer(input); //Create a new PasswordAnalyzer 'password'
+
+            //Part 1: Get the number of lowercase letters, uppercase letters, symbols, digits, and repeated characters
+            password.checkCharacters();
+            password.hasRepeats();
+            //Calculate the score of the password. Minimum of 0, maximum of 7
+            password.calculateScore();
+
+            //Part 2: Display to the user their score as well as suggestions (if needed) to improve their password
+            System.out.println("Analysis Complete");
+            System.out.println(password); //Call the toString method and display the numbers collected in Part 1
+            password.provideScore(); //Provide the user their password's score (Weak, Moderate, Strong, or Very Strong)
+            System.out.println();
+            System.out.println(password.provideSuggestions()); //Provide the user suggestions to improve their password's strength
+
+            //Part 3: Ask the user if they'd like to check another password
+            boolean checkAnswer = true; //Make sure this code repeats if an invalid response is given
+            while (checkAnswer) {
+            System.out.println("Would you like to check another password? Please type 'Yes' or 'No'");
+            String answer = keyboard.nextLine();
+                if (answer.equals("Yes")) {
+                    checkAnswer = false;
+                    continue;
+                } else if (answer.equals("No")) {
+                    System.out.println("Thank you for using the Password Strength Analyzer. Have a great day!");
+                    checkAnswer = false;
+                    active = false; //Close the loop
+                } else {
+                    System.out.println("Invalid response. Please type 'Yes' or 'No'");
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
 
-        Scanner keyboard = new Scanner(System.in); //Create the scanner object 'keyboard'
-        System.out.println("Hello! Please input your password, and I will evaluate its strength:"); //Ask the user to input their password
-        String input = new String (keyboard.nextLine()); //Store the user's password in String variable 'password'
-        PasswordAnalyzer password = new PasswordAnalyzer(input); //Create a new PasswordAnalyzer 'password'
-
-        //Part 1: Get the number of lowercase letters, uppercase letters, symbols, digits, and repeated characters
-        password.checkCharacters();
-        password.hasRepeats();
-        //Calculate the score of the password. Minimum of 0, maximum of 7
-        password.calculateScore();
-
-        //Part 2: Display to the user their score as well as suggestions (if needed) to improve their password
-        System.out.println("Analysis Complete");
-        System.out.println(password); //Call the toString method and display the numbers collected in Part 1
-        password.provideScore(); //Provide the user their password's score (Weak, Moderate, Strong, or Very Strong)
-        System.out.println();
-        System.out.println(password.provideSuggestions()); //Provide the user suggestions to improve their password's strength
-        keyboard.close(); //Close the Scanner
+        startPasswordAnalysis(); //Call the method that will run the program and loop until the user specifies not to
+        keyboard.close(); //Close the Scanner now that the user is done checking passwords
     }
 }
