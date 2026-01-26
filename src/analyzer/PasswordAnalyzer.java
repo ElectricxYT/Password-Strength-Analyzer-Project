@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 
 public class PasswordAnalyzer {
-    private static Scanner keyboard = new Scanner(System.in); //Create the scanner object 'keyboard' for the whole class to use
+    private static Scanner keyboard; //Create the scanner object 'keyboard' for the whole class to use
     private String pswd; //This variable will hold the user's password
     private int score; //This variable will hold the password's complexity score
     private int pswlength; //This variable will hold the length of the password
@@ -21,7 +21,18 @@ public class PasswordAnalyzer {
     private static int counter = 0;//Tracks the number of times the user checks a password.
     private static boolean failedLast = false; //Checks whether the last inputted password invalid ("")?
 
-    public PasswordAnalyzer(String pswd){ // Create a PasswordAnalyzer object to hold details of the user's password
+    public PasswordAnalyzer(Scanner keyboard){ // Create a PasswordAnalyzer object to hold details of the user's password based on the input contained within the keyboard object from Main.java
+        this.keyboard = keyboard;
+        score = 0;
+        numOfUpper = 0;
+        numOfLower = 0;
+        numOfSymb = 0;
+        numOfDigits = 0;
+        numOfRepeats = 0;
+        isCommon = false;
+    }
+
+    public PasswordAnalyzer(String pswd){  //Constructor for PasswordAnalyzer objects with a String parameter
         this.pswd = pswd;
         score = 0;
         pswlength = pswd.length();
@@ -32,6 +43,7 @@ public class PasswordAnalyzer {
         numOfRepeats = 0;
         isCommon = false;
     }
+
 
     /**
      * Check each character in the password and add to the respective count depending on
@@ -99,13 +111,11 @@ public class PasswordAnalyzer {
             score--;
         }
 
-        commonPasswords = CommonPasswords.checkCommonPasswords();
-        for(int i = 0; i < commonPasswords.length; i++){
-            if(pswd.equals(commonPasswords[i])){
-                score-=2;
-                isCommon = true;
-            }
+        if (CommonPasswords.isCommonPassword(pswd)) { //Check to see if the password is in the HashSet located in CommonPasswords.java
+            score -= 2;
+            isCommon = true;
         }
+
     }
 
     /**
@@ -207,7 +217,7 @@ public class PasswordAnalyzer {
     /**
      * Contains the code for analyzing the user's password, allowing them to continuously check passwords until satisfied
      */
-    private static void startPasswordAnalysis(){
+    public void startPasswordAnalysis(){
         boolean active = true;
         while(active) {
             if (counter == 0) {
@@ -218,7 +228,7 @@ public class PasswordAnalyzer {
                 System.out.println("Welcome back! Please input another password, and I will evaluate its strength");
             }
 
-            String input = keyboard.nextLine();//Store the user's password in String variable 'password'
+            String input = keyboard.nextLine(); //Store the user's password in String variable 'password'
             if (input.equals("")) { //If nothing is inputted, inform the user to input a valid password and restart the method
                 System.out.println("No password received. Please input a password.");
                 failedLast = true;
@@ -245,8 +255,8 @@ public class PasswordAnalyzer {
             //Part 3: Ask the user if they'd like to check another password
             boolean checkAnswer = true; //Make sure this code repeats if an invalid response is given
             while (checkAnswer) {
-            System.out.println("Would you like to check another password? Please type 'Yes' or 'No'");
-            String answer = keyboard.nextLine();
+                System.out.println("Would you like to check another password? Please type 'Yes' or 'No'");
+                String answer = keyboard.nextLine();
                 if (answer.equals("Yes")) {
                     checkAnswer = false;
                     continue;
@@ -261,9 +271,4 @@ public class PasswordAnalyzer {
         }
     }
 
-    public static void main(String[] args) {
-
-        startPasswordAnalysis(); //Call the method that will run the program and loop until the user specifies not to
-        keyboard.close(); //Close the Scanner now that the user is done checking passwords
-    }
 }
