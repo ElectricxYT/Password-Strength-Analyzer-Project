@@ -1,8 +1,0 @@
-## How to Run
-
-1. Clone the repository
-2. Navigate to the `src` directory
-3. Compile:
-   javac PasswordAnalyzer.java CommonPasswords.java
-4. Run:
-   java PasswordAnalyzer
