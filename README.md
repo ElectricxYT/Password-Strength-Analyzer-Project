@@ -84,15 +84,27 @@ Final strength ratings:
     - Strength classification
 
     - Recommendation generation
-
+      
+- Separates program control logic from per-password analysis
+  
 ## CommonPasswords.java
 
-- Stores and provides access to a list of commonly used weak passwords
+- Stores a set of commonly used weak passwords
+
+- Uses a HashSet for constant-time lookup
 
 - Enables dictionary-based penalty detection
 
-# Example Session
+## Main.java
 
+- Entry point for the application
+
+- Manages user input and program execution
+
+- Delegates analysis work to PasswordAnalyzer
+
+# Example Session
+```
 Hello! Please input your password, and I will evaluate its strength:
 
 *P@ssword123*
@@ -107,7 +119,6 @@ Your password has:
 Your password's strength is: Strong
 
 Your password is strong, but it could be even stronger. To improve your password:
-
 To increase the strength of your password, ensure that it: 
  - Has a minimum of 13 characters 
  - Has at least one lowercase letter 
@@ -124,7 +135,19 @@ Would you like to check another password? Please type 'Yes' or 'No'
 *No*
 
 Thank you for using the Password Strength Analyzer. Have a great day!
+```
 
+- This project does not currently use a formal testing framework (e.g., JUnit). Instead, correctness was validated through structured manual testing using known input categories and expected outcomes.
+
+**Example Test Cases**
+
+| Input Password    |   Expected Result    |   Reason    |
+|-------------------|----------------------|-------------|
+|""|Rejected|Weak|
+|password|Weak|Common password|
+|Password1|Moderate|Mixed case and digit, but short and common|
+|P@ssword123|Strong|Multiple character types but common base|
+|a9!xQ2En#76|Very Strong|Length, complexity, no repetition, not common|
 
 ## Design & Engineering Highlights
 
@@ -158,7 +181,7 @@ Thank you for using the Password Strength Analyzer. Have a great day!
 
 # Future Improvements
 
-- Replace array-based common password lookup with a HashSet for faster lookups
+- Replace array-based common password lookup with a HashSet for faster lookups (COMPLETED 1/25/26)
 
 - Add entropy-based scoring for more precise strength evaluation
 
