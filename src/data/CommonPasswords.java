@@ -1,3 +1,4 @@
+import java.util.HashSet;
 /**
  * CommonPasswords class
  * Contains an Array of common passwords for the user's password to be checked against.
@@ -5,16 +6,65 @@
  * @author Kaden Williams, January 8, 2026
  */
 public class CommonPasswords {
-    public static String[] commonPasswords = {  //This Array will hold the top 50 Most Common Passwords (According to NordPass)
-            "123456", "admin", "12345678", "123456789", "12345", "password", "Aa123456", "1234567890", "Pass@123", "admin123", "1234567", "123123", "111111", "12345678910", "P@ssw0rd", "Password", "Aa@123456", "admintelecom", "Admin@123", "112233", "102030", "654321", "abcd1234", "abc123", "qwerty123", "Abcd@1234", "Pass@1234", "11223344", "admin@123", "87654321", "987654321", "qwerty", "123123123", "1q2w3e4r", "Aa112233", "12341234", "qwertyuiop", "11111111", "Admin", "Password@123", "asd123", "Aboy1234", "123321", "admin1", "Admin123", "Demo@123", "1q2w3e4r5t", "admin1234", "aa123456", "121212"
-    };
+    private static final HashSet<String> commonPasswords = new HashSet<>(); //Create a HashSet to store common passwords in
 
-    /**
-     * Returns an array containing the top 50 most common passwords.
-     * @return String Array 'commonPasswords', which contains the top 50 most common passwords.
-     */
-    public static String[] checkCommonPasswords(){
-        return commonPasswords;
+    static {
+        commonPasswords.add("123456");
+        commonPasswords.add("admin");
+        commonPasswords.add("12345678");
+        commonPasswords.add("123456789");
+        commonPasswords.add("12345");
+        commonPasswords.add("password");
+        commonPasswords.add("Aa123456");
+        commonPasswords.add("1234567890");
+        commonPasswords.add("Pass@123");
+        commonPasswords.add("admin123");
+        commonPasswords.add("1234567");
+        commonPasswords.add("123123");
+        commonPasswords.add("111111");
+        commonPasswords.add("12345678910");
+        commonPasswords.add("P@ssw0rd");
+        commonPasswords.add("Password");
+        commonPasswords.add("Aa@123456");
+        commonPasswords.add("admintelecom");
+        commonPasswords.add("Admin@123");
+        commonPasswords.add("112233");
+        commonPasswords.add("102030");
+        commonPasswords.add("654321");
+        commonPasswords.add("abcd1234");
+        commonPasswords.add("abc123");
+        commonPasswords.add("qwerty123");
+        commonPasswords.add("Abcd@1234");
+        commonPasswords.add("Pass@1234");
+        commonPasswords.add("11223344");
+        commonPasswords.add("admin@123");
+        commonPasswords.add("87654321");
+        commonPasswords.add("987654321");
+        commonPasswords.add("qwerty");
+        commonPasswords.add("123123123");
+        commonPasswords.add("1q2w3e4r");
+        commonPasswords.add("Aa112233");
+        commonPasswords.add("12341234");
+        commonPasswords.add("qwertyuiop");
+        commonPasswords.add("11111111");
+        commonPasswords.add("Admin");
+        commonPasswords.add("Password@123");
+        commonPasswords.add("asd123");
+        commonPasswords.add("Aboy1234");
+        commonPasswords.add("123321");
+        commonPasswords.add("admin1");
+        commonPasswords.add("Admin123");
+        commonPasswords.add("Demo@123");
+        commonPasswords.add("1q2w3e4r5t");
+        commonPasswords.add("admin1234");
+        commonPasswords.add("aa123456");
+        commonPasswords.add("121212");
     }
 
+    /**
+     * Checks whether the given password is a common password.
+     */
+    public static boolean isCommonPassword(String password){
+        return commonPasswords.contains(password); //returns TRUE if the HashSet contains the password
+    }
 }
